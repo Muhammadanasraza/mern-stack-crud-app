@@ -17,7 +17,7 @@ const Header = ({ toggleSidebar }) => {
 
         {/* Mobile Menu Button */}
         <button className="lg:hidden" onClick={toggleSidebar}>
-          <AiOutlineMenu size={15} className="text-black" />
+          <AiOutlineMenu size={15} className="text-white" />
         </button>
       </div>
     </header>
