@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Components/Header";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./Components/Sidebar";
 import Services from "./Components/Pages/Service";
 import Contact from "./Components/Pages/Cantact";
 import Products from "./Components/Pages/Products";

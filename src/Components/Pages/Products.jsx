@@ -48,7 +48,7 @@ const Products = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="">
       <dir className='flex  justify-between items-center'>
       <p className="text-4xl font-bold mb-6">Products</p>
       <Button className="  bg-[#00010229] hover:bg-blue-600 text-white">
@@ -70,7 +70,7 @@ const Products = () => {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id} className="hover:bg-gray-100">
+              <tr key={product.id} className="hover:bg-gray-100 ">
                 <td className="py-2 px-4 border-b">
                   <img
                     src={product.image}
