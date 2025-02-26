@@ -8,9 +8,9 @@ const CreateProduct = () => {
   const [form] = Form.useForm();
   const [productData, setProductData] = useState({
     productName: "",
-    descriptions: "",
+    description: "",
     price: "",
-    image: null
+    // image: null
   })
 
   const handleInputChange = (e) => {
@@ -18,22 +18,55 @@ const CreateProduct = () => {
     setProductData((prevData) => ({ ...prevData, [name]: value }))
   }
 
-  const handleImageChange = (info) => {
-    const file = info.file.originFileObj;
-    console.log("Selected Image File:", file);
-    setProductData(file);
-  };
+
+
+
+
+  // const handleImageChange = (info) => {
+  //   const file = info.file.originFileObj;
+  //   console.log("Selected Image File:", file);
+  //   setProductData(file);
+  // };
 
   // Form submit handler
-  const onFinish = (values) => {
-    console.log("Form Values:", values);
-    // Success Message
-    messageApi.open({
-      type: "success",
-      content: "Product created successfully!",
-    });
+  const onFinish = async (e) => {
+    // console.log("event", e.target.value)
+    try {
+      const response = await fetch("http://localhost:4000/products", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(productData)
 
-    form.resetFields();
+      })
+      const data = await response.json()
+
+
+      if (data.ok) {
+        console.log("Product Created Successfully")
+      }
+
+      setProductData({
+        productName: "",
+        description: "",
+        price: ""
+      })
+
+      console.log("Form Values:", data);
+      // Success Message
+      messageApi.open({
+        type: "success",
+        content: "Product created successfully!",
+      });
+
+      form.resetFields();
+
+    } catch (err) {
+      console.log("error on creating Product", err)
+    }
+
+
   };
 
   // Form Submit Error Handler
@@ -44,8 +77,6 @@ const CreateProduct = () => {
       content: "Please fill in all required fields correctly.",
     });
   };
-
-
   return (
     <div className="p-6 bg-white shadow-md rounded-lg w-full mx-auto">
       <h2 className="text-2xl font-bold mb-6">Create Product</h2>
@@ -68,7 +99,7 @@ const CreateProduct = () => {
           <Input
             type="text"
             name="name"
-            value='name'
+            value={productData.productName}
             placeholder="Enter product name"
             onChange={handleInputChange}
           />
@@ -83,7 +114,7 @@ const CreateProduct = () => {
           <Input.TextArea
             type="text"
             name="description"
-            // value={formData.description}
+            value={productData.description}
             rows={4}
             placeholder="Enter product description"
             onChange={handleInputChange}
@@ -100,7 +131,7 @@ const CreateProduct = () => {
           <InputNumber
             type="number"
             name="price"
-            // value={formData.price}
+            value={productData.price}
             className="w-full"
 
             min={0}
@@ -111,21 +142,21 @@ const CreateProduct = () => {
         </Form.Item>
 
         {/* Image Upload */}
-        <Form.Item
+        {/* <Form.Item
           label="Product Image"
           name="image"
-          rules={[{ required: true, message: "Please upload a product image" }]}
+          rules={[{ message: "Please upload a product image" }]}
         >
           <Upload
             beforeUpload={() => false}
-            onChange={handleImageChange}
+            // onChange={handleImageChange}
             maxCount={1}
             listType="picture"
             required
           >
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
-        </Form.Item>
+        </Form.Item> */}
 
         {/* Submit Button */}
         <Form.Item>

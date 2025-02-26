@@ -60,6 +60,7 @@ const Products = () => {
         // Show spinner when loading
         <div className="flex justify-center items-center h-80">
           <Spin size="large" />
+          <h1 className="px-5">Loading..</h1>
         </div>
       ) : (
         <div className="overflow-x-auto">
