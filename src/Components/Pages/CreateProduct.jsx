@@ -16,7 +16,7 @@ const CreateProduct = () => {
   //   console.log("Selected Image File:", file);
   //   setProductData(file);
   // };
-  
+
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +31,7 @@ const CreateProduct = () => {
   // Form submit handler
   const onFinish = async () => {
     try {
-      const response = await fetch("http://localhost:4000/products", {
+      const response = await fetch("http://localhost:4000/api/products", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
