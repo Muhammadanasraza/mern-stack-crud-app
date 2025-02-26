@@ -1,36 +1,35 @@
 import React, { useState } from "react";
-import { Form, Input, InputNumber, Button, Upload, message, Descriptions } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Form, Input, InputNumber, Button, message } from "antd";
 
 const CreateProduct = () => {
-
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
+
   const [productData, setProductData] = useState({
-    productName: "",
+    name: "",
     description: "",
-    price: "",
-    // image: null
-  })
+    price: ""
+  });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProductData((prevData) => ({ ...prevData, [name]: value }))
-  }
-
-
-
-
-
-  // const handleImageChange = (info) => {
+    // const handleImageChange = (info) => {
   //   const file = info.file.originFileObj;
   //   console.log("Selected Image File:", file);
   //   setProductData(file);
   // };
+  
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Handle price change (since InputNumber uses a different event)
+  const handlePriceChange = (value) => {
+    setProductData((prevData) => ({ ...prevData, price: value }));
+  };
 
   // Form submit handler
-  const onFinish = async (e) => {
-    // console.log("event", e.target.value)
+  const onFinish = async () => {
     try {
       const response = await fetch("http://localhost:4000/products", {
         method: "POST",
@@ -38,35 +37,36 @@ const CreateProduct = () => {
           "Content-type": "application/json"
         },
         body: JSON.stringify(productData)
-
-      })
-      const data = await response.json()
-
-
-      if (data.ok) {
-        console.log("Product Created Successfully")
-      }
-
-      setProductData({
-        productName: "",
-        description: "",
-        price: ""
-      })
-
-      console.log("Form Values:", data);
-      // Success Message
-      messageApi.open({
-        type: "success",
-        content: "Product created successfully!",
       });
 
-      form.resetFields();
+      const data = await response.json();
 
+      if (response.ok) {
+        messageApi.open({
+          type: "success",
+          content: "Product created successfully!",
+        });
+
+        setProductData({
+          name: "",
+          description: "",
+          price: ""
+        });
+
+        form.resetFields();
+      } else {
+        messageApi.open({
+          type: "error",
+          content: data.message || "Failed to create product",
+        });
+      }
     } catch (err) {
-      console.log("error on creating Product", err)
+      console.log("Error creating product:", err);
+      messageApi.open({
+        type: "error",
+        content: "Error creating product",
+      });
     }
-
-
   };
 
   // Form Submit Error Handler
@@ -77,10 +77,12 @@ const CreateProduct = () => {
       content: "Please fill in all required fields correctly.",
     });
   };
+
   return (
     <div className="p-6 bg-white shadow-md rounded-lg w-full mx-auto">
       <h2 className="text-2xl font-bold mb-6">Create Product</h2>
       {contextHolder}
+      
       <Form
         form={form}
         layout="vertical"
@@ -99,7 +101,7 @@ const CreateProduct = () => {
           <Input
             type="text"
             name="name"
-            value={productData.productName}
+            value={productData.name}
             placeholder="Enter product name"
             onChange={handleInputChange}
           />
@@ -112,32 +114,11 @@ const CreateProduct = () => {
           rules={[{ required: true, message: "Please enter the product description" }]}
         >
           <Input.TextArea
-            type="text"
             name="description"
             value={productData.description}
             rows={4}
             placeholder="Enter product description"
             onChange={handleInputChange}
-          />
-        </Form.Item>
-
-        {/* Price */}
-        <Form.Item
-          label="Price"
-          name="price"
-
-          rules={[{ required: true, message: "Please enter the product price" }]}
-        >
-          <InputNumber
-            type="number"
-            name="price"
-            value={productData.price}
-            className="w-full"
-
-            min={0}
-            max={10000}
-            placeholder="Enter product price"
-            onChange={(value) => setProductData((prevData) => ({ ...prevData, name: value }))}
           />
         </Form.Item>
 
@@ -158,12 +139,29 @@ const CreateProduct = () => {
           </Upload>
         </Form.Item> */}
 
+        {/* Price */}
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[{ required: true, message: "Please enter the product price" }]}
+        >
+          <InputNumber
+            name="price"
+            value={productData.price}
+            className="w-full"
+            min={0}
+            max={10000}
+            placeholder="Enter product price"
+            onChange={handlePriceChange}
+          />
+        </Form.Item>
+
         {/* Submit Button */}
         <Form.Item>
           <Button
-            type="submit"
+            type="primary"
             htmlType="submit"
-            className="bg-blue-500 hover:bg-blue-600 border-4 "
+            className="bg-blue-500 hover:bg-blue-600"
           >
             Create Product
           </Button>
