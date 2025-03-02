@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, message, Modal, Spin, Form, Input, InputNumber } from "antd";
 import shirt from "../../assets/images/shirt-1.jpg";
+import { Link } from "react-router-dom";
+
+
+
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -108,113 +113,122 @@ const Products = () => {
 
 
   return (
-    <div>
-      {contextHolder}
-      <div className="flex justify-between items-center">
-        <p className="text-4xl font-bold mb-6">Products</p>
-        <Button className="bg-blue-500 hover:bg-blue-600 text-white">
-          Add Products
-        </Button>
-      </div>
+    <div className="w-[80%] mx-auto py-6">
+    {contextHolder}
+    <div className="flex justify-between items-center mb-4">
+      <p className="text-4xl font-bold">Products</p>
+      <Link to="/CreateProduct">
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white">Add Products</Button>
+      </Link>
+    </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center h-80">
-          <Spin size="large" />
-          <h1 className="px-5">Loading...</h1>
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="py-2 px-4 border-b">Image</th>
-                <th className="py-2 px-4 border-b">Name</th>
-                <th className="py-2 px-4 border-b">Description</th>
-                <th className="py-2 px-4 border-b">Price</th>
-                <th className="py-2 px-4 border-b">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product._id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border-b">
+    {loading ? (
+      <div className="flex justify-center items-center h-80">
+        <Spin size="large" />
+        <h1 className="px-5">Loading...</h1>
+      </div>
+    ) : (
+      <div className="overflow-x-auto rounded-lg shadow">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="py-3 px-4 border-b text-center w-24">Image</th>
+              <th className="py-3 px-4 border-b text-left">Name</th>
+              <th className="py-3 px-4 border-b text-left">Description</th>
+              <th className="py-3 px-4 border-b text-right">Price</th>
+              <th className="py-3 px-4 border-b text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product._id} className="hover:bg-gray-100">
+                <td className="py-3 px-4 border-b text-center">
+                  <div className="flex justify-center">
                     <img
-                      src={shirt}
+                      src={shirt || "/placeholder.svg"}
                       alt={product.name}
-                      className="w-20 h-20 object-cover rounded"
+                      className="w-16 h-16 object-cover rounded"
                     />
-                  </td>
-                  <td className="py-2 px-4 border-b">{product.name}</td>
-                  <td className="py-2 px-4 border-b">{product.description}</td>
-                  <td className="py-2 px-4 border-b text-green-500 font-bold">
-                    ${product.price}
-                  </td>
-                  <td className="py-2 px-1 border-b space-x-4">
+                  </div>
+                </td>
+                <td className="py-3 px-4 border-b text-left font-medium">{product.name}</td>
+                <td className="py-3 px-4 border-b text-left">{product.description}</td>
+                <td className="py-3 px-4 border-b border-neutral-950 text-right text-green-500 font-bold">
+                  ${product.price.toFixed(1)}
+                </td>
+                <td className="py-3 px-4 border-b text-center">
+                  <div className="flex justify-center space-x-2">
                     <button
-                      className="bg-blue-200 py-1 px-4 rounded transition"
+                      className="bg-blue-100 hover:bg-blue-200 text-blue-700 py-1 px-3 rounded transition"
                       onClick={() => showEditModal(product)}
                     >
                       Edit
                     </button>
                     <button
-                      className="bg-red-200 py-1 my-3 px-2 rounded transition"
+                      className="bg-red-100 hover:bg-red-200 text-red-700 py-1 px-3 rounded transition"
                       onClick={() => handleDelete(product._id)}
                     >
                       Delete
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
 
-      {/* Edit Modal */}
-      <Modal
-        title="Edit Product"
-        open={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
-        footer={null}
+    {/* Edit Modal */}
+    <Modal
+      title="Edit Product"
+      open={isModalVisible}
+      onCancel={() => setIsModalVisible(false)}
+      footer={null}
+      centered
+    >
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleEdit}
+        initialValues={selectedProduct || {}}
+        className="pt-2"
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleEdit}
-          initialValues={selectedProduct}
+        <Form.Item
+          label="Product Name"
+          name="name"
+          rules={[{ required: true, message: "Please enter the product name" }]}
         >
-          <Form.Item
-            label="Product Name"
-            name="name"
-            rules={[{ required: true, message: "Please enter the product name" }]}
-          >
-            <Input />
-          </Form.Item>
+          <Input />
+        </Form.Item>
 
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Please enter the description" }]}
-          >
-            <Input.TextArea rows={4} />
-          </Form.Item>
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: true, message: "Please enter the description" }]}
+        >
+          <Input.TextArea rows={4} />
+        </Form.Item>
 
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: "Please enter the price" }]}
-          >
-            <InputNumber min={0} className="w-full" />
-          </Form.Item>
+        <Form.Item label="Price" name="price" rules={[{ required: true, message: "Please enter the price" }]}>
+          <InputNumber
+            min={0}
+            className="w-full"
+            formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          />
+        </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Save Changes
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+        <Form.Item className="mb-0 text-right">
+          <Button type="default" onClick={() => setIsModalVisible(false)} className="mr-2">
+            Cancel
+          </Button>
+          <Button type="primary" htmlType="submit" className="bg-blue-500 hover:bg-blue-600">
+            Save Changes
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
+  </div>
   );
 };
 

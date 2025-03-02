@@ -8,9 +8,9 @@ const Header = ({ toggleSidebar }) => {
       {/* Application Title */}
       <p className="text-2xl text-white font-bold">Product Management</p>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 ">
         {/* User Info for lg and md screens */}
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-2 ">
           <Avatar className="" src="https://i.pravatar.cc/150?img=3" size="large" />
           <span className="text-white font-medium px-2">John Doe</span>
         </div>

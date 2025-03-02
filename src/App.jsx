@@ -22,12 +22,12 @@ const App = () => {
 
         <div className="flex flex-1 pt-16 overflow-hidden">
           {/* Sidebar */}
-          <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
+           {/* <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} /> */}
 
           {/* Main Content */}
-          <main className="flex-1 p-6 bg-gray-100 overflow-auto lg:ml-64">
+          <main className="flex-1 p-6 bg-gray-100 overflow-auto ">
             <Routes>
-              <Route path="/product" element={<Products />} />
+              <Route path="/" element={<Products />} />
               <Route path="/CreateProduct" element={<CreateProduct />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
