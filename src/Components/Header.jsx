@@ -6,7 +6,7 @@ const Header = ({ toggleSidebar }) => {
   return (
     <header className="bg-gray-800 fixed w-full top-0 z-50 flex items-center justify-between p-4 shadow-md">
       {/* Application Title */}
-      <p className="text-2xl text-white font-bold">Product Management</p>
+      <p className="text-2xl text-white font-bold">Product Crud App</p>
 
       <div className="flex items-center space-x-4 ">
         {/* User Info for lg and md screens */}
