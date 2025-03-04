@@ -132,7 +132,7 @@ const Products = () => {
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-800 text-white">
             <tr>
-              <th className="py-3 px-4 border-b text-center w-24">Image</th>
+              <th className="py-3 px-4 border-b text-center w-24">Number</th>
               <th className="py-3 px-4 border-b text-left">Name</th>
               <th className="py-3 px-4 border-b text-left">Description</th>
               <th className="py-3 px-4 border-b text-right">Price</th>
@@ -140,41 +140,38 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <tr key={product._id} className="hover:bg-gray-100">
-                <td className="py-3 px-4 border-b text-center">
-                  <div className="flex justify-center">
-                    <img
-                      src={shirt || "/placeholder.svg"}
-                      alt={product.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                  </div>
-                </td>
-                <td className="py-3 px-4 border-b text-left font-medium">{product.name}</td>
-                <td className="py-3 px-4 border-b text-left">{product.description}</td>
-                <td className="py-3 px-4 border-b border-neutral-950 text-right text-green-500 font-bold">
-                  ${product.price.toFixed(1)}
-                </td>
-                <td className="py-3 px-4 border-b text-center">
-                  <div className="flex justify-center space-x-2">
-                    <button
-                      className="bg-blue-100 hover:bg-blue-200 text-blue-700 py-1 px-3 rounded transition"
-                      onClick={() => showEditModal(product)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="bg-red-100 hover:bg-red-200 text-red-700 py-1 px-3 rounded transition"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+  {products.map((product, index) => (
+    <tr key={product._id} className="hover:bg-gray-100">
+      <td className="py-3 px-4 border-b text-center">
+        <div className="flex justify-center">
+          <h1>{index + 1}</h1>
+        </div>
+      </td>
+      <td className="py-3 px-4 border-b text-left font-medium">{product.name}</td>
+      <td className="py-3 px-4 border-b text-left">{product.description}</td>
+      <td className="py-3 px-4 border-b border-neutral-950 text-right text-green-500 font-bold">
+        ${product.price.toFixed(1)}
+      </td>
+      <td className="py-3 px-4 border-b text-center">
+        <div className="flex justify-center space-x-2">
+          <button
+            className="bg-blue-100 hover:bg-blue-200 text-blue-700 py-1 px-3 rounded transition"
+            onClick={() => showEditModal(product)}
+          >
+            Edit
+          </button>
+          <button
+            className="bg-red-100 hover:bg-red-200 text-red-700 py-1 px-3 rounded transition"
+            onClick={() => handleDelete(product._id)}
+          >
+            Delete
+          </button>
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
         </table>
       </div>
     )}

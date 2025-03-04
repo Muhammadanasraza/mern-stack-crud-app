@@ -11,15 +11,13 @@ const CreateProduct = () => {
   const [productData, setProductData] = useState({
     name: "",
     description: "",
-    price: ""
+    price: "",
   });
 
-  const handleImageChange = (info) => {
-    const file = info.file.originFileObj;
-    console.log("Selected Image File:", file);
-    setProductData(file);
-  };
-
+  // const handleImageChange = ({ file }) => {
+  //   setProductData((prevData) => ({ ...prevData, image: file.originFileObj }));
+  //   form.setFieldsValue({ image: file.name }); // Sync with Ant Design
+  // };
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +51,7 @@ const CreateProduct = () => {
         setProductData({
           name: "",
           description: "",
-          price: ""
+          price: "",
         });
 
         form.resetFields();
@@ -152,7 +150,7 @@ const CreateProduct = () => {
           </Form.Item>
 
           {/* Image Upload */}
-          <Form.Item
+          {/* <Form.Item
             label="Product Image"
             name="image"
             rules={[{ message: "Please upload a product image" }]}
@@ -166,7 +164,7 @@ const CreateProduct = () => {
             >
               <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
-          </Form.Item>
+          </Form.Item> */}
 
           {/* Submit Button */}
           <Form.Item>
